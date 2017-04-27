@@ -13,7 +13,7 @@ source:
 
 build:
   number: 0
-  skip: True  # [win and osx]
+  skip: True  # [win or osx]
 
 requirements:
   build:
@@ -21,21 +21,21 @@ requirements:
 
 test:
   commands:
-    - test -f "${PREFIX}/lib/drmaa.o
-    - test -f "${PREFIX}/lib/libdrmaa.a
-    - test -f "${PREFIX}/lib/libdrmaa.lai
-    - test -f "${PREFIX}/lib/libdrmaa.so.1
-    - test -f "${PREFIX}/lib/log_reader.o
-    - test -f "${PREFIX}/lib/pbs_conn.o
-    - test -f "${PREFIX}/lib/submit.o
-    - test -f "${PREFIX}/lib/util.o
-    - test -f "${PREFIX}/lib/job.o
-    - test -f "${PREFIX}/lib/libdrmaa.la
-    - test -f "${PREFIX}/lib/libdrmaa.so
-    - test -f "${PREFIX}/lib/libdrmaa.so.1.0.19
-    - test -f "${PREFIX}/lib/pbs_attrib.o
-    - test -f "${PREFIX}/lib/session.o
-    - test -f "${PREFIX}/lib/torque4.o
+    - test -f ${PREFIX}/lib/drmaa.o
+    - test -f ${PREFIX}/lib/libdrmaa.a
+    - test -f ${PREFIX}/lib/libdrmaa.lai
+    - test -f ${PREFIX}/lib/libdrmaa.so.1
+    - test -f ${PREFIX}/lib/log_reader.o
+    - test -f ${PREFIX}/lib/pbs_conn.o
+    - test -f ${PREFIX}/lib/submit.o
+    - test -f ${PREFIX}/lib/util.o
+    - test -f ${PREFIX}/lib/job.o
+    - test -f ${PREFIX}/lib/libdrmaa.la
+    - test -f ${PREFIX}/lib/libdrmaa.so
+    - test -f ${PREFIX}/lib/libdrmaa.so.1.0.19
+    - test -f ${PREFIX}/lib/pbs_attrib.o
+    - test -f ${PREFIX}/lib/session.o
+    - test -f ${PREFIX}/lib/torque4.o
 
 about:
   home: http://apps.man.poznan.pl/trac/pbs-drmaa
