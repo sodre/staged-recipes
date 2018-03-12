@@ -30,7 +30,7 @@ source:
     - f-gov-cn-cloud-option.patch  # [not win]
 
 build:
-  number: 0
+  number: 1
   script:
     - XCOPY {{ x4_plugin }}.exe %LIBRARY_BIN%  # [win]
 
