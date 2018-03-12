@@ -1,0 +1,23 @@
+diff --git a/aws/resource_aws_network_interface_attachment_test.go b/aws/resource_aws_network_interface_attacment_test.go
+similarity index 100%
+rename from aws/resource_aws_network_interface_attachment_test.go
+rename to aws/resource_aws_network_interface_attacment_test.go
+diff --git a/aws/resource_aws_vpc_endpoint.go b/aws/resource_aws_vpc_endpoint.go
+index 946b5f10..e8a89533 100644
+--- a/aws/resource_aws_vpc_endpoint.go
++++ b/aws/resource_aws_vpc_endpoint.go
+@@ -347,12 +347,8 @@ func vpcEndpointAttributes(d *schema.ResourceData, vpce *ec2.VpcEndpoint, conn *
+ 
+ 	serviceName := aws.StringValue(vpce.ServiceName)
+ 	d.Set("service_name", serviceName)
+-	// VPC endpoints don't have types in GovCloud, so set type to default if empty
+-	if aws.StringValue(vpce.VpcEndpointType) == "" {
+-		d.Set("vpc_endpoint_type", ec2.VpcEndpointTypeGateway)
+-	} else {
+-		d.Set("vpc_endpoint_type", vpce.VpcEndpointType)
+-	}
++	vpceType := aws.StringValue(vpce.VpcEndpointType)
++	d.Set("vpc_endpoint_type", vpceType)
+ 
+ 	policy, err := structure.NormalizeJsonString(aws.StringValue(vpce.PolicyDocument))
+ 	if err != nil {

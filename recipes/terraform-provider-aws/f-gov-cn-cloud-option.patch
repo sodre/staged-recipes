@@ -1,0 +1,68 @@
+diff --git a/aws/config.go b/aws/config.go
+index d357fb40..03368dae 100644
+--- a/aws/config.go
++++ b/aws/config.go
+@@ -138,6 +138,9 @@ type Config struct {
+ 	SkipRequestingAccountId bool
+ 	SkipMetadataApiCheck    bool
+ 	S3ForcePathStyle        bool
++
++	ForceGovCloud   bool
++	ForceChinaCloud bool
+ }
+ 
+ type AWSClient struct {
+@@ -214,6 +217,9 @@ type AWSClient struct {
+ 	dxconn                *directconnect.DirectConnect
+ 	mediastoreconn        *mediastore.MediaStore
+ 	appsyncconn           *appsync.AppSync
++
++	forcegovcloud   bool
++	forcechinacloud bool
+ }
+ 
+ func (c *AWSClient) S3() *s3.S3 {
+@@ -226,12 +232,12 @@ func (c *AWSClient) DynamoDB() *dynamodb.DynamoDB {
+ 
+ func (c *AWSClient) IsGovCloud() bool {
+ 	_, isGovCloud := endpoints.PartitionForRegion([]endpoints.Partition{endpoints.AwsUsGovPartition()}, c.region)
+-	return isGovCloud
++	return isGovCloud || c.forcegovcloud
+ }
+ 
+ func (c *AWSClient) IsChinaCloud() bool {
+ 	_, isChinaCloud := endpoints.PartitionForRegion([]endpoints.Partition{endpoints.AwsCnPartition()}, c.region)
+-	return isChinaCloud
++	return isChinaCloud || c.forcechinacloud
+ }
+ 
+ // Client configures and returns a fully initialized AWSClient
+@@ -253,6 +259,10 @@ func (c *Config) Client() (interface{}, error) {
+ 	// bucket storage in S3
+ 	client.region = c.Region
+ 
++	// force gov/china cloud
++	client.forcegovcloud = c.ForceGovCloud
++	client.forcechinacloud = c.ForceChinaCloud
++
+ 	log.Println("[INFO] Building AWS auth structure")
+ 	creds, err := GetCredentials(c)
+ 	if err != nil {
+diff --git a/website/docs/index.html.markdown b/website/docs/index.html.markdown
+index b768c12f..9f75bed8 100644
+--- a/website/docs/index.html.markdown
++++ b/website/docs/index.html.markdown
+@@ -234,6 +234,13 @@ The following arguments are supported in the `provider` block:
+   virtual hosted bucket addressing, `http://BUCKET.s3.amazonaws.com/KEY`,
+   when possible. Specific to the Amazon S3 service.
+ 
++* `force_china_cloud` - (Optional) Set this to `true` to force the
++  ChinaCloud provider behavior. Setting this to `true` allows Terraform to
++  control a custom AWS-like cloud that has features similar to China Region
++* `force_gov_cloud` - (Optional) Set this to `true` to force the
++  GovCloud provider behavior. Setting this to `true` allows Terraform to
++  control a custom AWS-like cloud that has features similar to GovCloud.
++
+ The nested `assume_role` block supports the following:
+ 
+ * `role_arn` - (Required) The ARN of the role to assume.

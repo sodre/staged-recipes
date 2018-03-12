@@ -23,6 +23,12 @@ source:
   sha256: {{ sha256_win32 }}  # [win32]
   sha256: {{ sha256_win64 }}  # [win64]
 
+  patches:
+    # Fixes for govcloud #3317
+    - govcloud-vpc-endpoint-type.patch  # [not win]
+    # Fix for localstack/on-prem cloud #3727
+    - f-gov-cn-cloud-option.patch  # [not win]
+
 build:
   number: 0
   script:
