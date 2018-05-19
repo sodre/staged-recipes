@@ -1,0 +1,57 @@
+{% set name = "pre-commit" %}
+{% set version = "1.8.2" %}
+{% set sha256 = "823452163aa9fb024a9ff30947ba7f5a2778708db7554a4d36438b9bbead6bbb" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name.replace('-','_') }}/{{ name.replace('-','_') }}-{{ version }}.tar.gz
+  sha256: {{ sha256 }}
+
+build:
+  noarch: python
+  number: 0
+  script: python -m pip install --no-deps --ignore-installed .
+
+requirements:
+  host:
+    - python
+    - pip
+  run:
+    - python
+    - aspy.yaml
+    - cached-property
+    - cfgv >=1.0.0
+    - identify >=1.0.0
+    - nodeenv >=0.11.1
+    - pyyaml
+    - six
+    - virtualenv
+
+test:
+  imports:
+    - pre_commit
+  commands:
+    - pre-commit --help
+    - pre-commit-validate-config --help
+    - pre-commit-validate-manifest --help
+
+about:
+  home: https://pre-commit.com
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+  summary: 'A framework for managing and maintaining multi-language pre-commit hooks.'
+  description: |
+    simplejson is a simple, fast, complete, correct and extensible
+    JSON <http://json.org> encoder and decoder for Python 2.5+ and
+    Python 3.3+. It is pure Python code with no dependencies, but includes
+    an optional C extension for a serious speed boost.
+  doc_url: https://pre-commit.com
+  dev_url: https://github.com/pre-commit/pre-commit
+
+extra:
+  recipe-maintainers:
+    - sodre
