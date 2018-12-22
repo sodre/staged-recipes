@@ -1,7 +1,5 @@
 {% set name = "pytorch" %}
 {% set version = "0.2.0" %}
-{% set sha256 = "" %}
-{% set blas_variant = "openblas" %}
 
 package:
   name: {{ name|lower }}
@@ -9,29 +7,32 @@ package:
 
 source:
   url: https://github.com/pytorch/pytorch/archive/v{{ version }}.tar.gz
-  sha256: 22b30638536d20d387e1adff62aa4b9ddebd8ac7ab812a36c699d72df9f7f570
+  sha256: b76d61aaa8fc18b928ca3c910c398687be08f5661d6615884c4faba3e8742a26
 
 build:
   number: 0
   features:
-    - blas_{{ blas_variant }}
+    - blas_{{ blas_impl }}
   skip: true  # [win]
 
 requirements:
   build:
-    - python
-    - setuptools
-    - toolchain
-    - numpy 1.8.*
-    - pyyaml
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - {{ compiler('fortran') }}
     - cmake
+  host:
+    - python
+    - pip
+    - numpy
+    - pyyaml
     - cffi
-    - openblas 0.2.19|0.2.19.*
+    - openblas
   run:
     - python
-    - numpy >=1.8
+    - numpy
     - cffi
-    - openblas 0.2.19|0.2.19.*
+    - openblas
 
 test:
   imports:
