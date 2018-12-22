@@ -12,4 +12,4 @@ export NO_CUDA=1
 
 export MAKEFLAGS=-j$CPU_COUNT
 
-python setup.py install --single-version-externally-managed --record record.txt
+${PYTHON} -m pip install . --no-deps -vv

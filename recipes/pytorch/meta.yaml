@@ -1,7 +1,6 @@
 {% set name = "pytorch" %}
 {% set version = "0.2.0" %}
-{% set build = 0 %}
-{% set sha256 = "22b30638536d20d387e1adff62aa4b9ddebd8ac7ab812a36c699d72df9f7f570" %}
+{% set sha256 = "" %}
 {% set blas_variant = "openblas" %}
 
 package:
@@ -9,12 +8,11 @@ package:
   version: {{ version }}
 
 source:
-  fn: v{{ version }}.tar.gz
   url: https://github.com/pytorch/pytorch/archive/v{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  sha256: 22b30638536d20d387e1adff62aa4b9ddebd8ac7ab812a36c699d72df9f7f570
 
 build:
-  number: {{ build }}
+  number: 0
   features:
     - blas_{{ blas_variant }}
   skip: true  # [win]
