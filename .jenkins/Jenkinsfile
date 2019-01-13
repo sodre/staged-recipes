@@ -17,6 +17,11 @@ pipeline {
           steps {
             sh """#!/bin/bash -il
                conda activate base
+               git fetch -u origin master
+               git checkout master
+               git checkout $GIT_COMMIT
+               git merge master
+
                cp .circleci/build_steps.sh .jenkins/build_steps.sh
                sed -f .jenkins/circle2jenkins.sed \
                  .circleci/build_steps.sh > .jenkins/build_steps.sh
