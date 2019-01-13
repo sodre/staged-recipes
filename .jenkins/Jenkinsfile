@@ -18,7 +18,7 @@ pipeline {
             sh """#!/bin/bash -il
                conda activate base
                git fetch -u origin master
-               git checkout master
+               git checkout -b master origin/master
                git checkout $GIT_COMMIT
                git merge master
 
