@@ -1,0 +1,31 @@
+#!/usr/bin/groovy
+pipeline {
+  agent none
+  stages {
+   stage('build') {
+      parallel {
+        stage('linux_') {
+          agent {
+            label 'condaforge/linux-anvil'
+          }
+          environment {
+            CONFIG="${STAGE_NAME}"
+            FEEDSTOCK_ROOT="${WORKSPACE}"
+            RECIPE_ROOT="${FEEDSTOCK_ROOT}/recipe"
+            ARTIFACTS="${FEEDSTOCK_ROOT}/build_artifacts"
+          }
+          steps {
+            sh """#!/bin/bash -il
+               conda activate base
+               cp .circleci/build_steps.sh .jenkins/build_steps.sh
+               sed -f .jenkins/circle2jenkins.sed \
+                 .circleci/build_steps.sh > .jenkins/build_steps.sh
+               bash .jenkins/build_steps.sh
+               """
+            fileExists '${ARTIFACTS}/conda-forge-build-done'
+          }
+        }
+      }
+    }
+  }
+}
