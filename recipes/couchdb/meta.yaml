@@ -1,0 +1,53 @@
+{% set name = "couchdb" %}
+{% set version = "2.3.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/apache/{{ name }}/archive/{{ version }}.tar.gz
+  sha256: 2da1166352805069723f718a0fc9295cc6d25d2bca63d2112307a5c105d51a18
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - autoconf
+    - automake
+    - make
+    - pkg-config
+  host:
+    - openssl
+    - erlang
+    - libicu
+  run:
+    - erlang
+
+test:
+  commands:
+    - exit 1
+
+about:
+  home: http://github.com/apache/couchdb
+  license: Apache-2.0
+  license_family: Apache
+  license_file: LICENSE.txt
+  summary: 'Apache CouchDB. Time to Relax'
+
+  description: |
+    CouchDB is a database that completely embraces the web. Store your
+    data with JSON documents. Access your documents with your web browser,
+    via HTTP. Query, combine, and transform your documents with
+    JavaScript. CouchDB works well with modern web and mobile apps. You
+    can distribute your data, efficiently using CouchDB’s incremental
+    replication. CouchDB supports master-master setups with automatic
+    conflict detection.
+  doc_url: http://docs.couchdb.org
+  dev_url: https://github.com/apache/couchdb
+
+extra:
+  recipe-maintainers:
+    - sodre
