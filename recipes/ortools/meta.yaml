@@ -1,6 +1,5 @@
 {% set name = "or-tools" %}
-{% set version = "5.1" %}
-{% set sha256 = "25aedf676ccc5ae246be44543572fba9be5f42f2fb0c1f7edcc6f138db207d32" %}
+{% set version = "7.3" %}
 
 package:
   name: ortools
@@ -9,58 +8,55 @@ package:
 source:
   fn: {{ name }}-{{ version }}.tar.gz
   url: https://github.com/google/{{ name }}/archive/v{{ version }}.tar.gz
-  sha256: {{ sha256 }}
-  patches:
-    - use_conda_dependencies.patch
-    - use_conda_python_dependencies.patch
+  sha256: b87922b75bbcce9b2ab5da0221751a3c8c0bff54b2a1eafa951dbf70722a640e
+  #patches:
+  #  - use_conda_dependencies.patch
+  #  - use_conda_python_dependencies.patch
 
 build:
   number: 0
-  skip: True  # [(osx or win) or py>35]
-  script:
-    # Create Makefile.local, third_party comes from conda-packages.
-    - make third_party
-    - make -j${CPU_COUNT} ortoolslibs
-    - make -j${CPU_COUNT} python
-    - make pypi_archive
-    - cd temp-python*/ortools
-    - python setup.py install --single-version-externally-managed --record record.txt || bash
-    # Copy Headers and Protobuf files to ${PREFIX}/include/ortools
+  skip: True  # [(osx or win)]
 
 requirements:
   build:
     - {{ compiler('c') }}
-    - {{ compiler('cpp') }}
+    - {{ compiler('cxx') }}
     - {{ compiler('fortran') }}
     - autoconf 2.69
     - automake 1.15
     - bison 3.0.*
     - cmake
-    - coincbc 2.9.*
     - curl
     - flex 2.6.*
-    - gcc
-    - gflags 2.1.*
     - git
-    - help2man 1.47.*
-    - libtool 2.4.*
-    - pcre 8.*
-    - python
-    - protobuf 3.0.*
-    - setuptools
-    - sparsehash 2.0.*
-    - swig 3.0.*
-    - texinfo
-    - texlive-core
-    - unzip
+    - patchelf 0.10
+    - swig
+
+  host:
+    - gflags 2.2.2
+    - glog 0.4.0
+    - protobuf 3.9.0
+    - coincbc 2.10.*
+
+    #- help2man 1.47.*
+    #- libtool 2.4.*
+    #- pcre 8.*
+    #- python
+    #- protobuf 3.0.*
+    #- setuptools
+    #- sparsehash 2.0.*
+    #- swig 3.0.*
+    #- texinfo
+    #- texlive-core
+    #- unzip
 
   run:
-    - coincbc 2.9.*
-    - gflags 2.1.*
-    - pcre 8.*
-    - protobuf 3.0.*
-    - python
-    - sparsehash 2.0.*
+    #- coincbc 2.9.*
+    #- gflags 2.1.*
+    #- pcre 8.*
+    #- protobuf 3.0.*
+    #- python
+    #- sparsehash 2.0.*
 
 test:
   imports:
