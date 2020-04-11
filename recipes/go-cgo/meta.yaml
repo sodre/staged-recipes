@@ -75,6 +75,7 @@ outputs:
       requires:
         - {{ compiler('c') }}  # [unix]
         - {{ compiler('m2w64_c') }}  # [win]
+        - perl
       script:  {{ go_variant_str }}/test.sh   # [unix]
       script:  {{ go_variant_str }}/test.bat  # [win]
     about:
