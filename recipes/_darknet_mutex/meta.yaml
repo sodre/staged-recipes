@@ -1,0 +1,28 @@
+package:
+  name: _darknet_mutex
+  version: {{ darknet_variant_version }}
+
+build:
+  # The build number must always be set to 0.
+  # Use conda_build_config.yaml to make a new release.
+  noarch: generic
+  number: 0
+  string: {{ darknet_variant_str }}
+
+test:
+  commands:
+    - /bin/true
+
+about:
+  home: https://github.com/scraawl/_darknet_mutex-feedstock
+  license: BSD-3-Clause
+  license_family: BSD
+  license_file: LICENSE.txt
+  summary: "The darknet mutex package."
+  description: |
+    We support different variants of darknet:
+    `cpu`, which is darknet compiled with CPU only sppport
+    `gpu`, which is compiled with GPU=1;
+extra:
+  recipe-maintainers:
+    - conda-forge/go

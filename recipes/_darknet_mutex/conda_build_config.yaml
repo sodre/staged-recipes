@@ -1,0 +1,9 @@
+darknet_variant_version:
+  - 1.1.0
+  - 1.2.0
+darknet_variant_str:
+  - cpu
+  - gpu
+zip_keys:
+  - darknet_variant_version
+  - darknet_variant_str
