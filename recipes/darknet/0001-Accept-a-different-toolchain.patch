@@ -1,0 +1,47 @@
+From 1aff3a261a608480e3a7c88a75e0fbdfe3a12f8f Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Patrick=20Sodr=C3=A9?= <psodre@gmail.com>
+Date: Fri, 29 May 2020 01:08:14 -0400
+Subject: [PATCH] Accept a different toolchain
+
+---
+ Makefile | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 63e15e6..8416373 100644
+--- a/Makefile
++++ b/Makefile
+@@ -19,15 +19,15 @@ ALIB=libdarknet.a
+ EXEC=darknet
+ OBJDIR=./obj/
+ 
+-CC=gcc
+-CPP=g++
++CC?=gcc
++CXX?=g++
+ NVCC=nvcc 
+-AR=ar
+-ARFLAGS=rcs
++AR?=ar
++ARFLAGS?=rcs
+ OPTS=-Ofast
+-LDFLAGS= -lm -pthread 
++LDFLAGS+= -lm -pthread 
+ COMMON= -Iinclude/ -Isrc/
+-CFLAGS=-Wall -Wno-unused-result -Wno-unknown-pragmas -Wfatal-errors -fPIC
++CFLAGS?=-Wall -Wno-unused-result -Wno-unknown-pragmas -Wfatal-errors -fPIC
+ 
+ ifeq ($(OPENMP), 1) 
+ CFLAGS+= -fopenmp
+@@ -83,7 +83,7 @@ $(SLIB): $(OBJS)
+ 	$(CC) $(CFLAGS) -shared $^ -o $@ $(LDFLAGS)
+ 
+ $(OBJDIR)%.o: %.cpp $(DEPS)
+-	$(CPP) $(COMMON) $(CFLAGS) -c $< -o $@
++	$(CXX) $(COMMON) $(CXXFLAGS) -c $< -o $@
+ 
+ $(OBJDIR)%.o: %.c $(DEPS)
+ 	$(CC) $(COMMON) $(CFLAGS) -c $< -o $@
+-- 
+2.26.2
+

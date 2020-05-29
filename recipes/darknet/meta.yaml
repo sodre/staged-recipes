@@ -1,0 +1,61 @@
+{% set name = "darknet" %}
+{% set version = "0.0.20200524" %}
+{% set git_rev = "0ff2343" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}.g{{ git_rev }}
+
+source:
+  # NOTE: Upstream *does not* tag the repo
+  git_url: https://github.com/pjreddie/darknet
+  git_rev: 0ff2343
+  # NOTE: Upstream repo is very large.
+  #       If build fails to pull the correct revision, increase the git-depth
+  git_depth: 1
+  patches:
+    -  0001-Accept-a-different-toolchain.patch
+
+build:
+  number: 0
+  skip: True  # [not linux]
+
+test:
+  commands:
+    - darknet
+    - test -x $PREFIX/bin/darknet
+    - test -f $PREFIX/include/darknet.h
+    - test -f $PREFIX/lib/libdarknet.so
+    - test -f $PREFIX/lib/libdarknet.a
+
+outputs:
+  - name: {{ name|lower }}
+    script: {{ darknet_variant_str }}/build.sh
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - {{ compiler('cuda') }}  # [gpu]
+        - libgomp  # [linux and cpu]
+      run:
+        - _darknet_mutex * {{ darknet_variant_str }}
+      run_constrained:
+        - __cuda =={{ cuda_compiler_version }}  # [gpu]
+  - name: {{ name|lower }}-{{ darknet_variant_str }}
+    requiremets:
+      run:
+        - {{ pin_subpackage(name, exact=true) }}
+
+
+about:
+  home: https://pjreddie.com/darknet
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE.mit
+  summary: Darknet is an open source neural network framework written in C and CUDA.
+
+  dev_url: https://github.com/pjreddie/darknet
+
+extra:
+  recipe-maintainers:
+    - sodre
