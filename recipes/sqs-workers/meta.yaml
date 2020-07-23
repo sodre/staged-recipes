@@ -1,0 +1,43 @@
+{% set name = "sqs-workers" %}
+{% set version = "0.5.3" %}
+
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: f0f1487f07dbcac62280d4e8c1d4b52f95958f2a3a79abf2d011ca22f00babf2
+
+build:
+  number: 0
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - pip
+    - python
+  run:
+    - attrs
+    - boto3
+    - future
+    - pytest-runner
+    - python
+    - typing
+    - werkzeug
+
+test:
+  imports:
+    - sqs_workers
+
+about:
+  home: https://github.com/Doist/sqs-workers
+  summary: SQS Workers
+  license: MIT
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - sodre
