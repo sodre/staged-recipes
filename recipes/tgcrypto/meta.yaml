@@ -1,0 +1,46 @@
+{% set name = "TgCrypto" %}
+{% set version = "1.2.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/pyrogram/tgcrypto/archive/v{{ version }}.tar.gz
+  sha256: 5573329c82deefdbd41cb191ba551615f47d04e8839295aba93a683fadd95bf1
+
+build:
+  number: 0
+  noarch: python
+  script: "{{ PYTHON }} -m pip install . -vv"
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+  host:
+    - pip
+    - python
+  run:
+    - python
+
+test:
+  imports:
+    - tgcrypto
+  commands:
+    - pip check
+  requires:
+    - pip
+
+about:
+  home: https://github.com/pyrogram/tgcrypto
+  license: LGPL-3.0-or-later
+  license_family: LGPL
+  license_file: COPYING.lesser
+  summary: 'Fast and Portable Telegram Crypto Library for Python'
+
+  doc_url: https://docs.pyrogram.org/topics/tgcrypto
+  dev_url: https://github.com/pyrogram/tgcrypto
+
+extra:
+  recipe-maintainers:
+    - sodre
