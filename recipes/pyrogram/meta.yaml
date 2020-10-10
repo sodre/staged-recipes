@@ -34,7 +34,7 @@ test:
 
 about:
   home: https://github.com/pyrogram/pyrogram
-  license: LGPL-3.0
+  license: LGPL-3.0-or-later
   license_family: LGPL
   license_file: COPYING.lesser
   summary: 'Telegram MTProto API Client Library and Framework for Python'
