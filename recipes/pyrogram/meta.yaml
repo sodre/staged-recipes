@@ -1,0 +1,52 @@
+{% set name = "Pyrogram" %}
+{% set version = "1.0.7" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 95beff6eb1dbee38a96405a0d6600fda5ccbc8a9f29e693543f45b3a2ef0245b
+
+build:
+  number: 0
+  noarch: python
+  script: "{{ PYTHON }} -m pip install . -vv"
+
+requirements:
+  host:
+    - pip
+    - python
+  run:
+    - python
+    - pyaes >=1.6.1,<1.7
+    - pysocks >=1.7.1,<2
+    - async-lru >=1.0.2,<2
+
+test:
+  imports:
+    - pyrogram
+  commands:
+    - pip check
+  requires:
+    - pip
+
+about:
+  home: https://github.com/pyrogram/pyrogram
+  license: LGPL-3.0
+  license_family: LGPL
+  license_file: COPYING.lesser
+  summary: 'Telegram MTProto API Client Library and Framework for Python'
+
+  description: |
+    simplejson is a simple, fast, complete, correct and extensible
+    JSON <https://json.org> encoder and decoder for Python 2.5+ and
+    Python 3.3+. It is pure Python code with no dependencies, but includes
+    an optional C extension for a serious speed boost.
+  doc_url: https://docs.pyrogram.org/
+  dev_url: https://github.com/pyrogram/pyrogram
+
+extra:
+  recipe-maintainers:
+    - sodre
