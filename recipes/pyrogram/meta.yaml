@@ -20,9 +20,10 @@ requirements:
     - python
   run:
     - python
+    - async-lru >=1.0.2,<2
     - pyaes >=1.6.1,<1.7
     - pysocks >=1.7.1,<2
-    - async-lru >=1.0.2,<2
+    - tgcrypto >=1.2.0,<2
 
 test:
   imports:
@@ -39,11 +40,6 @@ about:
   license_file: COPYING.lesser
   summary: 'Telegram MTProto API Client Library and Framework for Python'
 
-  description: |
-    simplejson is a simple, fast, complete, correct and extensible
-    JSON <https://json.org> encoder and decoder for Python 2.5+ and
-    Python 3.3+. It is pure Python code with no dependencies, but includes
-    an optional C extension for a serious speed boost.
   doc_url: https://docs.pyrogram.org/
   dev_url: https://github.com/pyrogram/pyrogram
 
