@@ -1,0 +1,41 @@
+{% set name = "pyhumps" %}
+{% set version = "1.6.1" %}
+
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/pyhumps-{{ version }}.tar.gz
+  sha256: 01612603c5ad73a407299d806d30708a3935052276fdd93776953bccc0724e0a
+
+build:
+  number: 0
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - pip
+    - python
+  run:
+    - python
+
+test:
+  imports:
+    - humps
+  commands:
+    - pip check
+  requires:
+    - pip
+
+about:
+  home: https://github.com/nficano/humps
+  summary: 🐫  Convert strings (and dictionary keys) between snake case, camel case and pascal case in Python. Inspired by Humps for Node
+  license: MIT
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - sodre
