@@ -1,0 +1,49 @@
+{% set name = "webvtt-py" %}
+{% set version = "0.4.6" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/glut23/{{ name }}/archive/{{ version }}.tar.gz
+  sha256: 4c50613b4820dfaa948e5bf5b9e82b8122e0d67e863a1f31fa2e5c2160473046
+
+build:
+  number: 0
+  noarch: python
+  script: "{{ PYTHON }} -m pip install . -vv"
+
+requirements:
+  host:
+    - python
+    - pip
+  run:
+    - python
+    - docopt
+
+test:
+  imports:
+    - webvtt
+  source_files:
+    - tests
+  requires:
+    - pytest
+  commands:
+    - pip check
+    - webvtt --help
+    - pytest tests
+
+about:
+  home: https://pypi.org/project/webvtt-py/
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+  summary: 'A Python module for reading/writing WebVTT caption files.'
+
+  doc_url: https://webvtt-py.readthedocs.io/
+  dev_url: https://github.com/glut23/webvtt-py
+
+extra:
+  recipe-maintainers:
+    - sodre
