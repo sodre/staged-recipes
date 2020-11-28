@@ -1,7 +1,7 @@
 {% set framework = "darknet" %}
 {% set model = "yolov4" %}
 {% set version = "0.0.1" %}
-{% set git_rev = "e08a818" %}
+{% set extensions = ["weights", "config", "labels"] %}
 
 package:
   name: {{ framework|lower }}-{{ model|lower }}
@@ -24,25 +24,40 @@ source:
 build:
   number: 0
   noarch: generic
+  script:
+    - MODELS_PREFIX=${PREFIX}/models/{{ framework }}/{{ model }}
+    - mkdir -p ${MODELS_PREFIX}
+    {%- for ext in extensions %}
+    - cp {{ model }}.{{ ext }} ${MODELS_PREFIX}
+    {%- endfor %}
+    - mkdir -p ${PREFIX}/etc/conda/env_vars.d
+    - |
+      cat > ${PREFIX}/etc/conda/env_vars.d/{{framework}}-{{ model }}.json <<EOF
+      {
+        {%- for ext in extensions %}
+        "{{framework|upper}}_{{model|upper}}_{{ext|upper}}": "${MODELS_PREFIX}/{{ model }}.{{ ext }}",
+        {%- endfor %}
+        "{{framework|upper}}_{{model|upper}}_VERSION": "{{ version }}"
+      }
+      EOF
 
 requirements:
-  host:
   run:
 
 test:
   commands:
-    - set -eux
-    {% for ext in ["weights", "config", "labels"] %}
+    - set -eu
+    {%- for ext in extensions %}
     - test -e ${{ framework | upper }}_{{ model | upper }}_{{ ext | upper }}
-    {% endfor %}
+    {%- endfor %}
 
 about:
   home: https://pjreddie.com/darknet
   license: LicenseRef-darknet-public-domain
   license_file: LICENSE
-  summary: Darknet YOLOv4 network
-
+  summary: Darknet YOLOv4 608x608 Network
   dev_url: https://github.com/AlexeyAB/darknet
+  doc_url: https://github.com/AlexeyAB/darknet/wiki/YOLOv4-model-zoo
 
 extra:
   recipe-maintainers:
