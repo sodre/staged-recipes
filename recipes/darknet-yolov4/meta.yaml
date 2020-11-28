@@ -1,0 +1,49 @@
+{% set framework = "darknet" %}
+{% set model = "yolov4" %}
+{% set version = "0.0.1" %}
+{% set git_rev = "e08a818" %}
+
+package:
+  name: {{ framework|lower }}-{{ model|lower }}
+  version: {{ version }}
+
+source:
+  - fn: {{ model }}.config
+    url: https://drive.google.com/uc?id=1hSrVqiEbuVewEIVU4cqG-SqJFUNTYmIC&export=download
+    sha256: 3ccf704ccaf553569bee52a738c6b9c4136b8638e17af7ac045a0103fef8399c
+  - fn: {{ model }}.weights
+    url: https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights
+    sha256: e8a4f6c62188738d86dc6898d82724ec0964d0eb9d2ae0f0a9d53d65d108d562
+  - fn: {{ model }}.labels
+    url: https://raw.githubusercontent.com/AlexeyAB/darknet/master/data/coco.names
+    sha256: 634a1132eb33f8091d60f2c346ababe8b905ae08387037aed883953b7329af84
+  - fn: LICENSE
+    url: https://raw.githubusercontent.com/AlexeyAB/darknet/master/LICENSE
+    sha256: 2021f0b8d6426fbf9a2f0126f1e8a7d3b1d7027c871b9979fa2543b9557000c4
+
+build:
+  number: 0
+  noarch: generic
+
+requirements:
+  host:
+  run:
+
+test:
+  commands:
+    - set -eux
+    {% for ext in ["weights", "config", "labels"] %}
+    - test -e ${{ framework | upper }}_{{ model | upper }}_{{ ext | upper }}
+    {% endfor %}
+
+about:
+  home: https://pjreddie.com/darknet
+  license: LicenseRef-darknet-public-domain
+  license_file: LICENSE
+  summary: Darknet YOLOv4 network
+
+  dev_url: https://github.com/AlexeyAB/darknet
+
+extra:
+  recipe-maintainers:
+    - sodre
